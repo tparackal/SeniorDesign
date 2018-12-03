@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Irrigation</string>
+    <string name="ip_address">IP Address:</string>
+    <string name="e_g_192_168_0_10">e.g. 192.168.0.10</string>
+    <string name="port_number">Port Number:</string>
+    <string name="e_g_80">e.g. 80</string>
+    <string name="lr">LR</string>
+    <string name="setup">Setup</string>
+</resources>
