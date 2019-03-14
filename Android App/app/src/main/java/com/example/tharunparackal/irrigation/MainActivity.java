@@ -2,6 +2,7 @@ package com.example.tharunparackal.irrigation;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.Intent;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +21,6 @@ import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.net.ssl.HttpsURLConnection;
 
 
@@ -84,6 +84,7 @@ public class MainActivity extends Activity implements View.OnClickListener
         if (ipAddress.length() > 0 && portNumber.length() > 0)
         {
             new HttpRequestAsyncTask(v.getContext(), parameterValue, ipAddress, portNumber, "effect").execute();
+//            startActivity(new Intent(getApplicationContext(), ZoneActivity.class)); // starts zone screen activity
         }
     }
 

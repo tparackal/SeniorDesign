@@ -6,4 +6,16 @@
     <string name="e_g_80">e.g. 80</string>
     <string name="lr">LR</string>
     <string name="setup">Setup</string>
+    <string name="send">Send</string>
+    <string name="zones">Zones</string>
+    <string name="zone_1">Zone 1</string>
+    <string name="zone_2">Zone 2</string>
+    <string name="zone_3">Zone 3</string>
+    <string-array name = "soilType">
+        <item>Clay</item>
+        <item>Sand</item>
+        <item>Silt</item>
+        <item>Peat</item>
+        <item>Loam</item>
+    </string-array>
 </resources>
