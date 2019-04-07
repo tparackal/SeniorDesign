@@ -68,9 +68,12 @@ public class MainActivity extends Activity implements View.OnClickListener
         // get the pin number
         String parameterValue = "";
         // get the ip address
-        String ipAddress = editTextIPAddress.getText().toString().trim();
+//        String ipAddress = editTextIPAddress.getText().toString().trim(); //  reads the IP Address from text editor
+        String ipAddress = "192.168.4.1"; // IP Address of ESP8266
         // get the port number
-        String portNumber = editTextPortNumber.getText().toString().trim();
+//        String portNumber = editTextPortNumber.getText().toString().trim(); // reads the port number from text editor
+        String portNumber = "80"; // port number of ESP8266
+
 
         // save the IP address and port for the next time the app is used
         editor.putString(PREF_IP, ipAddress); // set the ip address value to save
@@ -103,18 +106,19 @@ public class MainActivity extends Activity implements View.OnClickListener
         // define the URL e.g. http://myIpaddress:myport/?pin=13 (to toggle pin 13 for example)
         // if we had just a parameter at a time to send, we could use the form commented below;
         // for more parameters, we can use the list with several parameters;
-        String requestURL = "http://" + ipAddress + ":" + portNumber + "/?" + parameterName + "=" + parameterValue;
+//        String requestURL = "http://" + ipAddress + ":" + portNumber + "/?" + parameterName + "=" + parameterValue;
         // method 2: include here as many parameters to params as needed;
         // right now, this is just a place-holder;
-        //String requestURL = "http://"+ipAddress;
+//        String requestURL = "http://"+ipAddress;
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        //params.add(new NameValuePair(parameterName, parameterValue));
+//        params.add(new NameValuePair(parameterName, parameterValue));
         //params.add(new BasicNameValuePair("secondParam", paramValue2));
         //params.add(new BasicNameValuePair("thirdParam", paramValue3));
 
         try {
             // create the URL object, and set the connection so that we can write to it;
-            URL url = new URL(requestURL);
+//            URL url = new URL(requestURL);
+            URL url = new URL("http", "192.168.4.1", 80, "/?"+parameterName+"="+parameterValue);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(15000);
             conn.setConnectTimeout(15000);
@@ -264,6 +268,5 @@ public class MainActivity extends Activity implements View.OnClickListener
                 alertDialog.show();
             }
         }
-
     }
 }
