@@ -27,15 +27,10 @@ import javax.net.ssl.HttpsURLConnection;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
-import android.util.Log; // debug
-
 
 
 public class MainActivity extends Activity implements View.OnClickListener
 {
-    private static final String TAG = MainActivity.class.getSimpleName(); // used for debugging
-
     public final static String PREF_IP = "PREF_IP_ADDRESS";
     public final static String PREF_PORT = "PREF_PORT_NUMBER";
     // shared preferences objects used to save the IP address and port so that the user doesn't have to
@@ -52,8 +47,6 @@ public class MainActivity extends Activity implements View.OnClickListener
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Log.d(TAG, "STARTED");
 
         sharedPreferences = getSharedPreferences("HTTP_HELPER_PREFS", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -73,14 +66,12 @@ public class MainActivity extends Activity implements View.OnClickListener
         editTextIPAddress.setText(sharedPreferences.getString(PREF_IP, ""));
         editTextPortNumber.setText(sharedPreferences.getString(PREF_PORT, ""));
 
-// Weather stuff
-        Log.d(TAG, "WEATHER STUFF STARTED");
-
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+// Weather stuff		
+		
+		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         String provider = locationManager.getBestProvider(new Criteria(), false);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -90,14 +81,13 @@ public class MainActivity extends Activity implements View.OnClickListener
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        Log.d(TAG, "PERMISSION GRANTED");
         Location location = locationManager.getLastKnownLocation(provider);
+
         Double lat = location.getLatitude();
         Double lng = location.getLongitude();
 
         DownloadTask task = new DownloadTask();
         task.execute("http://api.openweathermap.org/data/2.5/weather?lat="+String.valueOf(lat)+"&lon"+String.valueOf(lng) + "=524901&APPID=cd8c8c217eac0c91f8c8d6229918ae54");
-
     }
 
     @Override

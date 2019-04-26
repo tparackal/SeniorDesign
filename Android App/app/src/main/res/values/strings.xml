@@ -11,6 +11,7 @@
     <string name="zone_1">Zone 1</string>
     <string name="zone_2">Zone 2</string>
     <string name="zone_3">Zone 3</string>
+    <string name="result">Result</string>
     <string-array name = "soilType">
         <item>Clay</item>
         <item>Sand</item>
