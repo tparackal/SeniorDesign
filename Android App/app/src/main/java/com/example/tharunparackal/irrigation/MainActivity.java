@@ -88,9 +88,14 @@ public class MainActivity extends Activity implements View.OnClickListener
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+
+            Log.d(TAG, "PERMISSION DENIED");
+
             return;
         }
+
         Log.d(TAG, "PERMISSION GRANTED");
+
         Location location = locationManager.getLastKnownLocation(provider);
         Double lat = location.getLatitude();
         Double lng = location.getLongitude();

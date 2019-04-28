@@ -44,28 +44,31 @@ public class DownloadTask extends AsyncTask<String,Void,String> {
     }
 
     @Override
-    protected void onPostExecute(String result){
+    protected void onPostExecute(String result)
+    {
         super.onPostExecute(result);
 
         try {
-            JSONObject jsonObject = new JSONObject(result);
+                JSONObject jsonObject = new JSONObject(result);
 
-            JSONObject weatherCondition = new JSONObject(jsonObject.getString("weather"));
+                JSONObject weatherCondition = new JSONObject(jsonObject.getString("weather"));
 
-            double condition = Double.parseDouble(weatherCondition.getString("main"));
+                double condition = Double.parseDouble(weatherCondition.getString("main"));
 
-            Log.v(TAG, "weather status: " + condition); // used for debugging
+                Log.v(TAG, "weather status: " + condition); // used for debugging
 
-            JSONObject weatherData = new JSONObject(jsonObject.getString("main"));
+                JSONObject weatherData = new JSONObject(jsonObject.getString("main"));
 
-            double temperature = Double.parseDouble(weatherData.getString("temp"));
-            int temperatureInteger = (int) (temperature * 1.8-459.67);
+                double temperature = Double.parseDouble(weatherData.getString("temp"));
+                int temperatureInteger = (int) (temperature * 1.8-459.67);
 
-            String placeName = jsonObject.getString("name");
+                String placeName = jsonObject.getString("name");
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
     }
 }
 
