@@ -12,6 +12,8 @@
     <string name="zone_2">Zone 2</string>
     <string name="zone_3">Zone 3</string>
     <string name="result">Result</string>
+    <string name="zip_code">Zip Code</string>
+    <string name="e_g_53233">e_g_53233</string>
     <string-array name = "soilType">
         <item>Clay</item>
         <item>Sand</item>

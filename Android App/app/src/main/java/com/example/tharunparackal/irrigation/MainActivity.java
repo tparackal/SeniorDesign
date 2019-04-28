@@ -38,12 +38,13 @@ public class MainActivity extends Activity implements View.OnClickListener
 
     public final static String PREF_IP = "PREF_IP_ADDRESS";
     public final static String PREF_PORT = "PREF_PORT_NUMBER";
+	public final static String PREF_ZIP = "PREF_ZIP_CODE";
     // shared preferences objects used to save the IP address and port so that the user doesn't have to
     // type them next time he/she opens the app.
 
 
     public Button buttonSetup;
-    private EditText editTextIPAddress, editTextPortNumber;
+    public EditText editTextIPAddress, editTextPortNumber, editTextZipCode;
     SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
 
@@ -59,9 +60,11 @@ public class MainActivity extends Activity implements View.OnClickListener
         editor = sharedPreferences.edit();
 
         // assign text inputs
-        editTextIPAddress = (EditText) findViewById(R.id.editTextIPAddress);
-        editTextPortNumber = (EditText) findViewById(R.id.editTextPortNumber);
+//        editTextIPAddress = (EditText) findViewById(R.id.editTextIPAddress);
+//        editTextPortNumber = (EditText) findViewById(R.id.editTextPortNumber);
 
+		  editTextZipCode = (EditText) findViewById(R.id.editTextZipCode);
+		  
         // assign buttons, which are private member variables of this class;
         buttonSetup = (Button) findViewById(R.id.buttonSetup);
         buttonSetup.setPadding(0, 0, 0, 0);
@@ -70,14 +73,15 @@ public class MainActivity extends Activity implements View.OnClickListener
 
         // get the IP address and port number from the last time the user used the app,
         // put an empty string "" is this is the first time.
-        editTextIPAddress.setText(sharedPreferences.getString(PREF_IP, ""));
-        editTextPortNumber.setText(sharedPreferences.getString(PREF_PORT, ""));
+//        editTextIPAddress.setText(sharedPreferences.getString(PREF_IP, ""));
+//        editTextPortNumber.setText(sharedPreferences.getString(PREF_PORT, ""));
+		  editTextZipCode.setText(sharedPreferences.getString(PREF_ZIP, ""));
 
 // Weather stuff
         Log.d(TAG, "WEATHER STUFF STARTED");
 
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        String provider = locationManager.getBestProvider(new Criteria(), false);
+//        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//        String provider = locationManager.getBestProvider(new Criteria(), false);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
@@ -100,7 +104,7 @@ public class MainActivity extends Activity implements View.OnClickListener
         //Double lat = location.getLatitude();
         //Double lng = location.getLongitude();
          // assign text inputs
-        EditZipCode = (EditText) findViewById(R.id.EditZipCode);
+//        EditZipCode = (EditText) findViewById(R.id.EditZipCode);
         //EditCountryCode = (EditText) findViewById(R.id.EditCountryCode);
         
         
@@ -111,20 +115,20 @@ public class MainActivity extends Activity implements View.OnClickListener
     public void onClick(View v) // do something when button is clicked
     {
         // get the pin number
-        String parameterValue = "";
+//        String parameterValue = "";
         // get the ip address
 //        String ipAddress = editTextIPAddress.getText().toString().trim(); //  reads the IP Address from text editor
-        String ipAddress = "192.168.4.1"; // IP Address of ESP8266
+//        String ipAddress = "192.168.4.1"; // IP Address of ESP8266
         // get the port number
 //        String portNumber = editTextPortNumber.getText().toString().trim(); // reads the port number from text editor
-        String portNumber = "80"; // port number of ESP8266
+//        String portNumber = "80"; // port number of ESP8266
 //Weather ZipCode Stuff
 
-        String ZipCode = EditZipCode.getText().toString().trim();
+        String ZipCode = editTextZipCode.getText().toString().trim();
     //String CountryCode = EditCountryCode.getText().toString().trim();
     
     //Example Call with zip https://samples.openweathermap.org/data/2.5/weather?zip=94040,us&appid=b6907d289e10d714a6e88b30761fae22
-     DownloadTask task = new DownloadTask();
+		DownloadTask task = new DownloadTask();
         //task.execute("http://api.openweathermap.org/data/2.5/weather?lat="+String.valueOf(lat)+"&lon"+String.valueOf(lng) + "=524901&APPID=cd8c8c217eac0c91f8c8d6229918ae54");
          task.execute("http://api.openweathermap.org/data/2.5/weather?zip="+ZipCode+","+"us&appid=cd8c8c217eac0c91f8c8d6229918ae54");
    
@@ -133,19 +137,20 @@ public class MainActivity extends Activity implements View.OnClickListener
  
  
         // save the IP address and port for the next time the app is used
-        editor.putString(PREF_IP, ipAddress); // set the ip address value to save
-        editor.putString(PREF_PORT, portNumber); // set the port number to save
-        editor.commit(); // save the IP and PORT
+//        editor.putString(PREF_IP, ipAddress); // set the ip address value to save
+//        editor.putString(PREF_PORT, portNumber); // set the port number to save
+		editor.putString(PREF_ZIP, ZipCode); // set the zip code to save
+        editor.commit(); // save the IP and PORT and zip code
 
-        if (v.getId() == buttonSetup.getId())
-        {
-            parameterValue = "1";
-        }
-        if (ipAddress.length() > 0 && portNumber.length() > 0)
-        {
-            new HttpRequestAsyncTask(v.getContext(), parameterValue, ipAddress, portNumber, "effect").execute();
+//        if (v.getId() == buttonSetup.getId())
+//        {
+//            parameterValue = "1";
+//        }
+//        if (ipAddress.length() > 0 && portNumber.length() > 0)
+//        {
+//            new HttpRequestAsyncTask(v.getContext(), parameterValue, ipAddress, portNumber, "effect").execute();
 //            startActivity(new Intent(getApplicationContext(), ZoneActivity.class)); // starts zone screen activity
-        }
+//        }
     }
 
     // Description: Send an HTTP Get request to a specified ip address and port.

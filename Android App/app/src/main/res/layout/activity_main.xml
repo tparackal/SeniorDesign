@@ -10,7 +10,7 @@
         android:orientation="vertical">
 
 
-        <TextView
+<!--        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -36,7 +36,23 @@
             android:ems="10"
             android:hint="@string/e_g_80"
             android:id="@+id/editTextPortNumber"
-            android:importantForAutofill="no" tools:targetApi="o"/>
+            android:importantForAutofill="no" tools:targetApi="o"/> -->
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/zip_code" />
+
+        <EditText
+            android:id="@+id/editTextZipCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/e_g_53233"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            tools:targetApi="o" />
 
         <Button
             android:id="@+id/buttonSetup"
@@ -45,7 +61,7 @@
             android:alpha="1.0"
             android:background="@android:color/holo_orange_light"
             android:text="@string/setup"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </LinearLayout>
 
