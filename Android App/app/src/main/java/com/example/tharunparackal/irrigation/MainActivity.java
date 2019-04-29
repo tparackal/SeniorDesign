@@ -31,7 +31,6 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log; // debug
 
 
-
 public class MainActivity extends Activity implements View.OnClickListener
 {
     private static final String TAG = MainActivity.class.getSimpleName(); // used for debugging
@@ -62,8 +61,7 @@ public class MainActivity extends Activity implements View.OnClickListener
         // assign text inputs
 //        editTextIPAddress = (EditText) findViewById(R.id.editTextIPAddress);
 //        editTextPortNumber = (EditText) findViewById(R.id.editTextPortNumber);
-
-		  editTextZipCode = (EditText) findViewById(R.id.editTextZipCode);
+          editTextZipCode = (EditText) findViewById(R.id.editTextZipCode);
 		  
         // assign buttons, which are private member variables of this class;
         buttonSetup = (Button) findViewById(R.id.buttonSetup);
@@ -131,7 +129,7 @@ public class MainActivity extends Activity implements View.OnClickListener
 		DownloadTask task = new DownloadTask();
         //task.execute("http://api.openweathermap.org/data/2.5/weather?lat="+String.valueOf(lat)+"&lon"+String.valueOf(lng) + "=524901&APPID=cd8c8c217eac0c91f8c8d6229918ae54");
          task.execute("http://api.openweathermap.org/data/2.5/weather?zip="+ZipCode+","+"us&appid=cd8c8c217eac0c91f8c8d6229918ae54");
-   
+         Log.d(TAG, "TASK EXECUTION COMPLETE");
     
  //End of weather stuff
  

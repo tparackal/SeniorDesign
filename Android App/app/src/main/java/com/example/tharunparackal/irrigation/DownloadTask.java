@@ -1,6 +1,8 @@
 package com.example.tharunparackal.irrigation;
 
 import android.os.AsyncTask;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.InputStream;
@@ -9,20 +11,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import android.util.Log; // used for debugging
 
-public class DownloadTask extends AsyncTask<String,Void,String> {
+public class DownloadTask extends AsyncTask<String,Void,String>
+{
 
     private static final String TAG = DownloadTask.class.getSimpleName(); // used for debugging
 
     @Override
-    protected String doInBackground(String... urls) {
+    protected String doInBackground(String... urls)
+    {
         String result = "";
         URL url;
         HttpURLConnection urlConncetion = null;
 
 
-        try {
+        try
+        {
             url = new URL(urls [0]);
-
+            Log.d(TAG, "URL CREATED: " + urls[0]);
             urlConncetion = (HttpURLConnection) url.openConnection();
 
             InputStream in = urlConncetion.getInputStream();
@@ -36,8 +41,13 @@ public class DownloadTask extends AsyncTask<String,Void,String> {
                 result += current;
                 data = reader.read();
             }
+            Log.d(TAG, "TRY/CATCH SUCCESSFUL");
+            Log.d(TAG, "RESULT: " + result);
             return result;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "TRY/CATCH FAILED");
             e.printStackTrace();
         }
         return null;
@@ -48,31 +58,38 @@ public class DownloadTask extends AsyncTask<String,Void,String> {
     {
         super.onPostExecute(result);
 
-        try {
-                JSONObject jsonObject = new JSONObject(result);
+        try
+        {
+            JSONObject jsonObject = new JSONObject(result);
 
-//                JSONObject weatherCondition = new JSONObject(jsonObject.getString("weather"));
+//            JSONObject weatherCondition = new JSONObject(jsonObject.getString("weather"));
 
-//                double condition = Double.parseDouble(weatherCondition.getString("main"));
+//            double condition = Double.parseDouble(weatherCondition.getString("main"));
 
-//                Log.v(TAG, "weather status: " + condition); // used for debugging
+//            Log.v(TAG, "weather status: " + condition); // used for debugging
 
-                JSONObject weatherData = new JSONObject(jsonObject.getString("main"));
+//            JSONObject weatherData = jsonObject.getJSONObject("weather");
 
-                double condition = Double.parseDouble(weatherData.getString("weather"));
-//                int temperatureInteger = (int) (temperature * 1.8-459.67);
-                Log.v(TAG, "Weather Status: " + condition); // used for debugging
+            JSONArray weatherArray = jsonObject.getJSONArray("weather");
+            JSONObject weatherData = weatherArray.getJSONObject(0);
+
+//            JSONObject IDData = new JSONObject(weatherData.getString("id"));
+
+//            int condition = Integer.parseInt(jsonObject.getString("id"));
+            int condition = Integer.parseInt(weatherData.getString("id"));
+//            int temperatureInteger = (int) (temperature * 1.8-459.67);
+            Log.d(TAG, "Weather Status: " + condition); // used for debugging
 
 
             String placeName = jsonObject.getString("name");
-            Log.v(TAG, "Location: " + placeName); // used for debugging
+            Log.d(TAG, "Location: " + placeName); // used for debugging
 
 
         }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
 
