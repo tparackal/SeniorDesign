@@ -49,6 +49,8 @@ public class MainActivity extends Activity implements View.OnClickListener
     private static final String TAG = MainActivity.class.getSimpleName(); // used for debugging
 
     static final UUID hc05UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // UUID for HC-05
+    public static BluetoothSocket btSocket = null;
+
 
     public final static String PREF_IP = "PREF_IP_ADDRESS";
     public final static String PREF_PORT = "PREF_PORT_NUMBER";
@@ -90,12 +92,11 @@ public class MainActivity extends Activity implements View.OnClickListener
 //        editTextPortNumber.setText(sharedPreferences.getString(PREF_PORT, ""));
 //		  editTextZipCode.setText(sharedPreferences.getString(PREF_ZIP, ""));
 
-/*        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
         System.out.println(btAdapter.getBondedDevices()); // used to get MAC address
         BluetoothDevice hc05 = btAdapter.getRemoteDevice("98:D3:51:FD:87:33"); // MAC address of HC-05
         System.out.println(hc05.getName()); // check to make sure the address belongs to HC-05
 
-        BluetoothSocket btSocket = null;
         int count = 0;
         do
         {
@@ -113,7 +114,7 @@ public class MainActivity extends Activity implements View.OnClickListener
             count ++;
         } while(!btSocket.isConnected() && count < 3); // attempts to connect to the HC-05 3 times
 
-        try
+/*        try
         {
             OutputStream hc05Out = btSocket.getOutputStream();
             hc05Out.write('6');
@@ -174,8 +175,18 @@ public class MainActivity extends Activity implements View.OnClickListener
         // get the pin number
         String parameterValue = "";
 
+        btSend("Hello World");
 
-
+/*        try
+        {
+            OutputStream hc05Out = btSocket.getOutputStream();
+            hc05Out.write('6');
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+*/
         // get the ip address
 //        String ipAddress = editTextIPAddress.getText().toString().trim(); //  reads the IP Address from text editor
 //        String ipAddress = "192.168.4.1"; // IP Address of ESP8266
@@ -211,6 +222,29 @@ public class MainActivity extends Activity implements View.OnClickListener
 //            new HttpRequestAsyncTask(v.getContext(), parameterValue, ipAddress, portNumber, "effect").execute();
             startActivity(new Intent(getApplicationContext(), ZoneActivity.class)); // starts zone screen activity
 //        }
+    }
+
+    /**
+     * Description: Send a String value to the bluetooth module.
+     * Also send a parameter "parameterName" with the value of "parameterValue".
+     * @param result the String value that is being sent to the HC-05
+     **/
+    public static void btSend(String result) // sends the String value to the HC-05 module
+    {
+        try
+        {
+            int length = result.length();
+            OutputStream hc05Out = btSocket.getOutputStream();
+            for(int i = 0; i < length; i++)
+            {
+                char c = result.charAt(i);
+                hc05Out.write(c);
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     // Description: Send an HTTP Get request to a specified ip address and port.

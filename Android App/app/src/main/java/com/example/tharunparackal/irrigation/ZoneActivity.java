@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.TextView;
+import android.util.Log;
 
 /**
  * ZoneActivity.java
@@ -20,6 +22,9 @@ import android.widget.Toast;
 
 public class ZoneActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public Spinner soilSpinner1, soilSpinner2, soilSpinner3, moistureSpinner1, moistureSpinner2, moistureSpinner3;
+
+    private static final String TAG = ZoneActivity.class.getSimpleName(); // used for debugging
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +69,9 @@ public class ZoneActivity extends AppCompatActivity implements AdapterView.OnIte
         moistureSpinner3.setAdapter(moisture3Adapter);
         moistureSpinner3.setOnItemSelectedListener(this);
 
-
-
+        String location = DownloadTask.placeName;
+        TextView text = (TextView) findViewById(R.id.Location);
+        text.setText(location);
 
 
 

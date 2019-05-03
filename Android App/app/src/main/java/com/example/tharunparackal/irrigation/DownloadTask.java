@@ -22,7 +22,7 @@ public class DownloadTask extends AsyncTask<String,Void,String>
 {
 
     private static final String TAG = DownloadTask.class.getSimpleName(); // used for debugging
-    public String placeName;
+    public static String placeName;
     @Override
     protected String doInBackground(String... urls)
     {
