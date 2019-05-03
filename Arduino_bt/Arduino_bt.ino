@@ -70,13 +70,17 @@ void loop()
     if ( hc05.available() > 0) 
     {
 //     print_bt_response();
-      effect = hc05.read() - 48;
+//      effect = hc05.read() - 48;
+      char c = hc05.read();
+      Serial.print(c);
+//      Serial.println(effect);
+      if(effect == 6)
+      {
+        digitalWrite(outPin, HIGH);
+      }
       break;
     }
-    if(effect == 6)
-    {
-      digitalWrite(outPin, HIGH);
-    }
+    
   }
 
 //      sendHTTPResponse(connectionId, content);
