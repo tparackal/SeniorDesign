@@ -7,8 +7,8 @@
  * These outputs are set to high to activate the relay and dispense water to the area of interest. 
  * Helper functions at the bottom include watering and a serial listener to wait for the data array
  */
-
-
+#include <SoftwareSerial.h>
+#define DEBUG false
                                                                 //Variable declarations
 const int timer = 57;                                           //57 minutes of watering per day, 400 minutes per week, for 2 inches of water per week
                                                                 //Myakka, Antigo, Drummer, Houston Black soil types
@@ -27,13 +27,24 @@ char inputChars[35] = "";                                       //reformatting i
 char * strtokIndx;                                              //index for string separation
 int second = 1000;                                              //1000ms in 1 second
 int minute = second*60;                                         //60s in 1 minute
+int configFlag = 0;
+
+SoftwareSerial hc05(10,11);                                     //RX , TX
 
 void setup() {
+  hc05.begin(9600);
+  delay(2000);
   Serial.begin(9600);                                           //begin serial on debug port
   inputString.reserve(35);                                      //allow enough space for input string
   for(int x = 0; x<6; x++){                                     //set relay pins as OUTPUTs
     pinMode(relayPin[x],OUTPUT);
   }
+
+  sendCommand("AT",1000,DEBUG);
+  sendCommand("AT+VERSION",1000,DEBUG); 
+  sendCommand("AT+NAMEtharun",1000,DEBUG);
+  Serial.println("HC-05 module ready");
+  hc05.listen();
 
 /*Block
  * 
@@ -129,8 +140,8 @@ if(stringComplete){                                             //If a string is
 
 //Serial Listener
 void serialEvent(){
-  while(Serial.available()){
-    char inChar = (char)Serial.read();
+  while(hc05.available()){
+    char inChar = (char)hc05.read();
     inputString+=inChar;
     if(inChar =='\n'){                                          //Newline defines the end of the string
       stringComplete = true;
@@ -144,4 +155,32 @@ void water(int x){
   int totalDelay = timer*minute*zoneType[zone[x]];              //57 minutes * zone type ratio modifier
   delay(totalDelay);                                            //Wait for delay time
   digitalWrite(relayPin[x],LOW);                                //Close the valve
+}
+
+
+
+
+                                                                //sendCommand - used to send AT commands to the hc-06
+String sendCommand(String command, const int timeout, boolean debug)
+{
+    String response = "";
+           
+    hc05.print(command); // send the read character to the hc-06;
+    
+    long int time = millis();   
+    while ( (time+timeout) > millis())
+    {
+      while (hc05.available())
+      {      
+        // hc-06 module has data; so display its output to the serial window; 
+        char c = hc05.read(); // read the next character
+        response+=c;
+      }  
+    }
+    
+    if (debug) {
+      Serial.print(response);
+      Serial.print("\n");
+    }   
+    return response;
 }
