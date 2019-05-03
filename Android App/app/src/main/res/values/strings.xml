@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Irrigation</string>
     <string name="ip_address">IP Address:</string>
+    <string name="placeName">placeName</string>
     <string name="e_g_192_168_0_10">e.g. 192.168.0.10</string>
     <string name="port_number">Port Number:</string>
     <string name="e_g_80">e.g. 80</string>
@@ -14,11 +15,23 @@
     <string name="result">Result</string>
     <string name="zip_code">Zip Code</string>
     <string name="e_g_53233">e_g_53233</string>
+<!--    <string name="soil_type">Soil Type</string> -->
+    <string name="soil_type">Soil Type</string>
+    <string name="placename">placeName</string>
+    <string name="location">placeName</string>
     <string-array name = "soilType">
-        <item>Clay</item>
-        <item>Sand</item>
-        <item>Silt</item>
-        <item>Peat</item>
-        <item>Loam</item>
+        <item>Soil Type</item>
+        <item>Myakka (Florida)</item>
+        <item>Antigo (Wisconsin)</item>
+        <item>Drummer (Illinois)</item>
+        <item>Houston Black (Texas)</item>
+    </string-array>
+    <string-array name = "moistureLevel">
+        <item>Moisture Level</item>
+        <item>10%</item>
+        <item>20%</item>
+        <item>30%</item>
+        <item>40%</item>
+        <item>50%</item>
     </string-array>
 </resources>

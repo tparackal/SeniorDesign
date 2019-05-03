@@ -36,7 +36,7 @@
             android:ems="10"
             android:hint="@string/e_g_80"
             android:id="@+id/editTextPortNumber"
-            android:importantForAutofill="no" tools:targetApi="o"/> -->
+            android:importantForAutofill="no" tools:targetApi="o"/>  -->
 
         <TextView
             android:id="@+id/textView6"

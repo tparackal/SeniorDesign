@@ -1,7 +1,6 @@
 package com.example.tharunparackal.irrigation;
 
 import android.os.AsyncTask;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,11 +10,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import android.util.Log; // used for debugging
 
+/**
+ * DownloadTask.java
+ *
+ * Used to retrieve weather data from the API
+ *
+ * @author Nick Mussoline, Tharun Parackal
+ */
+
 public class DownloadTask extends AsyncTask<String,Void,String>
 {
 
     private static final String TAG = DownloadTask.class.getSimpleName(); // used for debugging
-
+    public String placeName;
     @Override
     protected String doInBackground(String... urls)
     {
@@ -35,7 +42,7 @@ public class DownloadTask extends AsyncTask<String,Void,String>
 
             int data = reader.read();
 
-            while(data !=-1)
+            while(data !=-1) // reads in the weather data from the URL
             {
                 char current = (char) data;
                 result += current;
@@ -76,12 +83,12 @@ public class DownloadTask extends AsyncTask<String,Void,String>
 //            JSONObject IDData = new JSONObject(weatherData.getString("id"));
 
 //            int condition = Integer.parseInt(jsonObject.getString("id"));
-            int condition = Integer.parseInt(weatherData.getString("id"));
+            int condition = Integer.parseInt(weatherData.getString("id")); // retrieves the weather condition ID
 //            int temperatureInteger = (int) (temperature * 1.8-459.67);
             Log.d(TAG, "Weather Status: " + condition); // used for debugging
 
 
-            String placeName = jsonObject.getString("name");
+            placeName = jsonObject.getString("name"); // retrieves the geographical location of the zip code
             Log.d(TAG, "Location: " + placeName); // used for debugging
 
 

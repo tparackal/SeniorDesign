@@ -2,6 +2,7 @@ package com.example.tharunparackal.irrigation;
 
 import android.Manifest;
 import android.app.Activity;
+import android.bluetooth.BluetoothDevice;
 import android.content.SharedPreferences;
 import android.content.Intent;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.os.AsyncTask;
 import android.app.AlertDialog;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -24,16 +26,29 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothSocket;
+import java.util.UUID;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log; // debug
 
+/**
+ * MainActivity.java
+ *
+ * Contains the first window for the app
+ *
+ * @author Tharun Parackal
+ */
+
 
 public class MainActivity extends Activity implements View.OnClickListener
 {
     private static final String TAG = MainActivity.class.getSimpleName(); // used for debugging
+
+    static final UUID hc05UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // UUID for HC-05
 
     public final static String PREF_IP = "PREF_IP_ADDRESS";
     public final static String PREF_PORT = "PREF_PORT_NUMBER";
@@ -53,7 +68,7 @@ public class MainActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d(TAG, "STARTED");
+//        Log.d(TAG, "STARTED");
 
         sharedPreferences = getSharedPreferences("HTTP_HELPER_PREFS", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -73,13 +88,57 @@ public class MainActivity extends Activity implements View.OnClickListener
         // put an empty string "" is this is the first time.
 //        editTextIPAddress.setText(sharedPreferences.getString(PREF_IP, ""));
 //        editTextPortNumber.setText(sharedPreferences.getString(PREF_PORT, ""));
-		  editTextZipCode.setText(sharedPreferences.getString(PREF_ZIP, ""));
+//		  editTextZipCode.setText(sharedPreferences.getString(PREF_ZIP, ""));
+
+/*        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+        System.out.println(btAdapter.getBondedDevices()); // used to get MAC address
+        BluetoothDevice hc05 = btAdapter.getRemoteDevice("98:D3:51:FD:87:33"); // MAC address of HC-05
+        System.out.println(hc05.getName()); // check to make sure the address belongs to HC-05
+
+        BluetoothSocket btSocket = null;
+        int count = 0;
+        do
+        {
+            try
+            {
+                btSocket = hc05.createRfcommSocketToServiceRecord(hc05UUID);
+                System.out.println(btSocket); // check if btSocket is successfully created
+                btSocket.connect();
+                System.out.println(btSocket.isConnected());
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            count ++;
+        } while(!btSocket.isConnected() && count < 3); // attempts to connect to the HC-05 3 times
+
+        try
+        {
+            OutputStream hc05Out = btSocket.getOutputStream();
+            hc05Out.write('6');
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+*/
+
+//        try
+//        {
+//            btSocket.close();
+//            System.out.println(btSocket.isConnected());
+//        }
+//        catch (IOException e)
+//        {
+//            e.printStackTrace();
+//        }
 
 // Weather stuff
         Log.d(TAG, "WEATHER STUFF STARTED");
 
-//        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        String provider = locationManager.getBestProvider(new Criteria(), false);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        String provider = locationManager.getBestProvider(new Criteria(), false);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
@@ -113,7 +172,10 @@ public class MainActivity extends Activity implements View.OnClickListener
     public void onClick(View v) // do something when button is clicked
     {
         // get the pin number
-//        String parameterValue = "";
+        String parameterValue = "";
+
+
+
         // get the ip address
 //        String ipAddress = editTextIPAddress.getText().toString().trim(); //  reads the IP Address from text editor
 //        String ipAddress = "192.168.4.1"; // IP Address of ESP8266
@@ -137,17 +199,17 @@ public class MainActivity extends Activity implements View.OnClickListener
         // save the IP address and port for the next time the app is used
 //        editor.putString(PREF_IP, ipAddress); // set the ip address value to save
 //        editor.putString(PREF_PORT, portNumber); // set the port number to save
-		editor.putString(PREF_ZIP, ZipCode); // set the zip code to save
+//		editor.putString(PREF_ZIP, ZipCode); // set the zip code to save
         editor.commit(); // save the IP and PORT and zip code
 
-//        if (v.getId() == buttonSetup.getId())
-//        {
-//            parameterValue = "1";
-//        }
+        if (v.getId() == buttonSetup.getId())
+        {
+            parameterValue = "1";
+        }
 //        if (ipAddress.length() > 0 && portNumber.length() > 0)
 //        {
 //            new HttpRequestAsyncTask(v.getContext(), parameterValue, ipAddress, portNumber, "effect").execute();
-//            startActivity(new Intent(getApplicationContext(), ZoneActivity.class)); // starts zone screen activity
+            startActivity(new Intent(getApplicationContext(), ZoneActivity.class)); // starts zone screen activity
 //        }
     }
 
