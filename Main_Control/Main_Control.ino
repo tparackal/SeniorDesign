@@ -46,29 +46,16 @@ void setup() {
   Serial.println("HC-05 module ready");
   hc05.listen();
 
-/*Block
- * 
- * Bluetooth Initialization
- * Receive Configuration
- * 
- */
-
- /*Block
-  * 
-  * Wifi Initialization
-  * API call
-  * 
-  */
-
-int arr[8] = {104,13,15,14,00,00,00,00};                        //hard-coded input array for debug
-inputString = "[104,13,15,14,00,00,00,00]";
+//fint arr[8] = {104,13,15,14,00,00,00,00};                        //hard-coded input array for debug
+//inputString = "[104,13,15,14,00,00,00,00]";
 Serial.print("Setup Finished\r\n");                   
-stringComplete=true;
+
 }
 
 void loop() {
 
 if(stringComplete){                                             //If a string is received by the listener
+  Serial.println("String Received");
   //format string received to array.
  // inputString.remove(inputString.length()-1);                 //crop the brackets of the array string
   inputString.remove(0,1);                 
@@ -140,6 +127,7 @@ if(stringComplete){                                             //If a string is
 
 //Serial Listener
 void serialEvent(){
+  Serial.println("Serial event");
   while(hc05.available()){
     char inChar = (char)hc05.read();
     inputString+=inChar;
