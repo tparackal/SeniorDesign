@@ -23,19 +23,20 @@ int percentage[6] = {0,0,0,0,0,0};                              //Saturation per
 int weather = 0, hour = 0;                                      //weather code, time code
 bool stringComplete = false;                                    //for serial listener
 String inputString = "";                                        
-char inputChars[35] = "";                                       //reformatting input string
+char inputChars[] = "";                                       //reformatting input string
 char * strtokIndx;                                              //index for string separation
 int second = 1000;                                              //1000ms in 1 second
 int minute = second*60;                                         //60s in 1 minute
 int configFlag = 0;
+int arrayCount=0;
 
 SoftwareSerial hc05(10,11);                                     //RX , TX
 
 void setup() {
+  Serial.begin(9600); 
   hc05.begin(9600);
-  delay(2000);
-  Serial.begin(9600);                                           //begin serial on debug port
-  inputString.reserve(35);                                      //allow enough space for input string
+  delay(2000);                                                  //begin serial on debug port
+  inputString.reserve(40);                                      //allow enough space for input string
   for(int x = 0; x<6; x++){                                     //set relay pins as OUTPUTs
     pinMode(relayPin[x],OUTPUT);
   }
@@ -53,6 +54,32 @@ Serial.print("Setup Finished\r\n");
 }
 
 void loop() {
+  while (!configFlag) 
+  {
+    if ( hc05.available() > 0) 
+    {
+//     print_bt_response();
+//      effect = hc05.read() - 48;
+      char c = hc05.read();
+      inputString+=c;
+      //arrayCount++;
+      Serial.print(c);
+      if(c==']'){
+        configFlag=1;
+        stringComplete=1;
+      }
+//      Serial.println(effect);
+     // if(effect == 6)
+     // {
+     //   digitalWrite(outPin, HIGH);
+    //  }
+   
+      break;
+    }
+    
+  }
+
+  
 
 if(stringComplete){                                             //If a string is received by the listener
   Serial.println("String Received");
@@ -127,14 +154,16 @@ if(stringComplete){                                             //If a string is
 
 //Serial Listener
 void serialEvent(){
-  Serial.println("Serial event");
-  while(hc05.available()){
+  //Serial.println("Serial event");
+ 
+ /* while(hc05.available()){
     char inChar = (char)hc05.read();
+    Serial.print(inChar);
     inputString+=inChar;
-    if(inChar =='\n'){                                          //Newline defines the end of the string
+    if(inChar ==']'){                                          //Newline defines the end of the string
       stringComplete = true;
     }
-  }
+  }*/
 }
 
 //Watering function. Takes zone as input.
